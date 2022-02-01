@@ -8,7 +8,15 @@ import logo from '../assets/logowhite.png'
 
 const Login = () => {
     const responseGoogle = (res) => {
+        localStorage.setItem('user', JSON.stringify(res.profileObj))
 
+        const { name, googleId, imageUrl } = res.profileObj
+        const doc = {
+            _id : googleId,
+            _type: 'user',
+            userName: name,
+            image: imageUrl
+        }
     }
 
     return (
@@ -31,12 +39,12 @@ const Login = () => {
 
                     <div className="shadow-2xl">
                         <GoogleLogin 
-                            clientId=''
+                            clientId={process.env.REACT_APP_GOOGLE_API_ID}
                             render={(renderProps) => (
                                 <button 
                                     type="button" 
                                     className="bg-mainColor flex justify-center items-center p-3 rounded-lg cursor-pointer outlined-none"
-                                    onClick={renderProps.onCLick}
+                                    onClick={renderProps.onClick}
                                     disabled={renderProps.disabled}
                                 >
                                     <FcGoogle className="mr-4" /> Sign in with Google
