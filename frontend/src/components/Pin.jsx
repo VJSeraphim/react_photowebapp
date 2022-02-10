@@ -12,10 +12,28 @@ import { fetchUser } from '../utils/fetchUser';
 
 const Pin = ({ pin: { postedBy, image, _id, destionation }}) => {
     const [postHovered, setPostHovered] = useState(false);
-    const [savingPost, setSavingPost] = useState(false);
     const navigate = useNavigate()
 
-    const userInfo = fetchUser()
+    const user = fetchUser()
+
+    const alreadySaved = !!(save?.filter((i) => i.postedBy._id === user.googleId))?.length
+    
+    const savePin = (id) => {
+        if(!alreadySaved) {
+            client.patch(id).setIfMissing({ save: []}).insert('after', 'save[-1]', [{
+                key: uuidv4(),
+                userId: user.googleId,
+                postedBy: {
+                    _type: 'postedBy',
+                    _ref: user.googleId
+                }
+            }])
+            .commit()
+            .then(() => {
+                window.location.reload()
+            })
+        }
+    }
     
     return (
         <div className="m-2">
@@ -46,14 +64,33 @@ const Pin = ({ pin: { postedBy, image, _id, destionation }}) => {
                                 <MdDownloadForOffline />
                             </a>
                         </div>
-                        {alreadySaved?.length !== 0 ? (
-                            <button>
-                                Saved
+                        {alreadySaved ? (
+                            <button type="button" className="bg-red-500">
+                                {save?.length} Saved
                             </button>
                         ) : (
-                            <button>
+                            <button 
+                                type="button" 
+                                className="bg-red-500 opacity-70 hover:opacity-100 text-white font-bold px-5 py-1 text-base rounded-3xl hover:shadow-medium outlined-none"
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    savePin(_id)
+                                }}
+                            >
                                 Save
                             </button>
+                        )}
+                    </div>
+                    <div className="flex justify-between items-center gap-2 w-full">
+                        {destination && (
+                            <a
+                                href={destination}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="bg-white flex items-center gap-2 text-black font-bold p-2 pl-4 pr-4"
+                            >
+
+                            </a>
                         )}
                     </div>
                 </div>
