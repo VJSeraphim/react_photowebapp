@@ -10,7 +10,7 @@ import { BsFillArrowUpRightCircleFill } from 'ract-icons-bs'
 import { urlFor, client } from '../client'
 import { fetchUser } from '../utils/fetchUser';
 
-const Pin = ({ pin: { postedBy, image, _id, destionation }}) => {
+const Pin = ({ pin: { postedBy, image, _id, destination }}) => {
     const [postHovered, setPostHovered] = useState(false);
     const navigate = useNavigate()
 
@@ -33,6 +33,13 @@ const Pin = ({ pin: { postedBy, image, _id, destionation }}) => {
                 window.location.reload()
             })
         }
+    }
+
+    const deletePin = (id) => {
+        client.delete(id)
+        .then(() => {
+            window.location.reload()
+        })
     }
     
     return (
@@ -87,15 +94,38 @@ const Pin = ({ pin: { postedBy, image, _id, destionation }}) => {
                                 href={destination}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="bg-white flex items-center gap-2 text-black font-bold p-2 pl-4 pr-4"
+                                className="bg-white flex items-center gap-2 text-black font-bold p-2 pl-4 pr-4 rounded-full opacity-70 hover:100 hover:shadow-md"
                             >
-
+                                <BsFillArrowUpRightCircleFill />
+                                {destination.length > 20 ? destination.slice(8, 20) : destination.slice(8)}
                             </a>
+                        )}
+                        {postedBy?._id === user.googleId && (
+                            <button 
+                                type="button" 
+                                className="bg-red-500 opacity-70 hover:opacity-100 font-bold text-dark text-base rounded-3xl hover:shadow-medium outlined-none"
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    deletePin(_id)
+                                }}
+                            >
+                                <AiTwotoneDelete />
+                            </button>
                         )}
                     </div>
                 </div>
             )}
             </div>
+            <Link to={`user-profile/${postedBy?._id}`} className="flex gap-2 mt-2 items-center">
+                <img 
+                    className="w-8 h-8 rounded-full object-cover"
+                    src={postedBy?.image}
+                    alt="user-profile"
+                />
+                <p className="font-semibold capitalize">
+                    {postedBy?.name}
+                </p>
+            </Link>
         </div>
     );
 };
