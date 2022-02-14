@@ -21,16 +21,16 @@ const CreatePin = ({ user }) => {
   const navigate = useNavigate()
 
   const uploadImage = (e) => {
-    const { type, name } = e.target.files[0]
-    if (type === 'image/png' 
-    || type === 'image/svg' 
-    || type === 'image/jpg'
-    || type === 'image/gif'
-    || type === 'image/tiff'
+    const selectedFile = e.target.files[0]
+    if (selectedFile.type === 'image/png' 
+    || selectedFile.type === 'image/svg' 
+    || selectedFile.type === 'image/jpg'
+    || selectedFile.type === 'image/gif'
+    || selectedFile.type === 'image/tiff'
     ) {
       setWrongImageType(false)
       client.assets
-      .upload('image', e.target.files[0], { contentType: type, filename: name})
+      .upload('image', e.target.files[0], { contentType: selectedFile.type, filename: selectedFile.name})
       .then((doc) => {
         setImageAsset(doc)
         setLoading(false)
