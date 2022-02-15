@@ -102,7 +102,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save }}) => {
                         {postedBy?._id === user.googleId && (
                             <button 
                                 type="button" 
-                                className="bg-red-500 opacity-70 hover:opacity-100 font-bold text-dark text-base rounded-3xl hover:shadow-medium outlined-none"
+                                className="bg-white p-2 rounded-full w-8 h-8 flex items-center justify-center text-dark opacity-75 hover:opacity-100 outline-none"
                                 onClick={(e) => {
                                     e.stopPropagation()
                                     deletePin(_id)
@@ -122,7 +122,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save }}) => {
                     alt="user-profile"
                 />
                 <p className="font-semibold capitalize">
-                    {postedBy?.name}
+                    {postedBy?.userName}
                 </p>
             </Link>
         </div>
