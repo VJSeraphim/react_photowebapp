@@ -46,7 +46,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save }}) => {
             <div
                 onMouseEnter={() => setPostHovered(true)}
                 onMouseLeave={() => setPostHovered(false)}
-                onClick={() => Navigate(`/pin-detail/${_id}`)}
+                onClick={() => navigate(`/pin-detail/${_id}`)}
                 className="relative cursor-zoom-in w-auto hover:shadow-lg rounded-lg overflow-hidden transition-all duration-500 ease-in-out"
             >
             <img 
@@ -60,7 +60,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save }}) => {
                     style={{ height: '100%'}}
                 >
                     <div className="flex items-center justify-between">
-                        <div classNAme="flex gap-2">
+                        <div className="flex gap-2">
                             <a
                                 href={`${image?.asset?.url}?dl=`}
                                 download
@@ -71,7 +71,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save }}) => {
                             </a>
                         </div>
                         {alreadySaved ? (
-                            <button type="button" className="bg-red-500">
+                            <button type="button" className="bg-red-500 opacity-70 hover:opacity-100 text-white font-bold px-5 py-1 text-base rounded-3xl hover:shadow-medium outlined-none">
                                 {save?.length} Saved
                             </button>
                         ) : (

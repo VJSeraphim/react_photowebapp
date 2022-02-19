@@ -5,17 +5,11 @@ import { IoIosArrowForward } from 'react-icons/io'
 
 import logo from '../assets/logo.png'
 
+import { categories } from '../utils/data';
+import { MdCategory } from 'react-icons/md';
+
 const isNotActiveStyle = 'flex items-center px-5 text-gray-500 hover:text-black transition-all duration-200 ease-in-out capitalize'
 const isActiveStyle = 'flex items-center px-5 font-extrabold border-r-2 border-black transition-all duration-200 ease-in-out capitalize'
-
-const categories = [
-  { name: 'Animals' },
-  { name: 'Foods' },
-  { name: 'Games' },
-  { name: 'Travel' },
-  { name: 'Coding' },
-  { name: 'Others' }
-]
 
 const Sidebar = ({ user, closeToggle }) => {
   const handleCloseSidebar = () => {
@@ -43,10 +37,15 @@ const Sidebar = ({ user, closeToggle }) => {
           {categories.slice(0, categories.length - 1).map((c) => (
             <NavLink
               to={`/category/${c.name}`}
-              className="flex px-5 gap-2 my-6 pt-1 w-190 items-center" 
+              className={({ isActive }) => (isActive ? isActiveStyle : isNotActiveStyle)}
               onClick={handleCloseSidebar}
               key={c.name}
             >
+            <img 
+              src={c.image}
+              className="w-8 h-8 rounded-full shadow-sm"
+              alt="category"
+            />
               {c.name}
             </NavLink>
           ))}
